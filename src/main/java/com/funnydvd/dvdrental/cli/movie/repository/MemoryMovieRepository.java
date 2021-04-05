@@ -54,18 +54,79 @@ public class MemoryMovieRepository implements MovieRepository {
 
         switch (condition) {
             case TITLE:
+//                results = searchByTitle(keyword);
+                results = search(keyword, (k, m) -> k.equals(m.getMovieName()));
                 break;
             case NATION:
+//                results = searchByNation(keyword);
+                results = search(keyword, (k, m) -> k.equals(m.getNation()));
                 break;
             case PUB_YEAR:
+                results = search(keyword, (k, m) -> Integer.parseInt(k) == m.getPubYear());
                 break;
             case ALL:
-                results = searchAll();
+                results = search(keyword, (k, m) -> true);
+                break;
+            case POSSIBLE:
+                results = search(keyword, (k, m) -> !m.isRental());
                 break;
             default:
                 return null;
         }
         return results;
+    }
+
+    private List<Movie> search(String keyword, MoviePredicate mp) {
+        List<Movie> movieList = new ArrayList<>();
+        for (int key : movieMemoryDB.keySet()) {
+            Movie movie = movieMemoryDB.get(key);
+
+            //검색 키워드와 발매연도 일치하는 movie만 리스트에 추가
+            if (mp.test(keyword, movie)) {
+                movieList.add(movie);
+            }
+        }
+        return movieList;
+    }
+
+    private List<Movie> searchByPubYear(String keyword) throws NumberFormatException {
+        List<Movie> movieList = new ArrayList<>();
+        for (int key : movieMemoryDB.keySet()) {
+            Movie movie = movieMemoryDB.get(key);
+
+            //검색 키워드와 발매연도 일치하는 movie만 리스트에 추가
+            if (Integer.parseInt(keyword) == movie.getPubYear()) {
+                movieList.add(movie);
+            }
+        }
+        return movieList;
+    }
+
+    private List<Movie> searchByNation(String keyword) {
+        List<Movie> movieList = new ArrayList<>();
+        for (int key : movieMemoryDB.keySet()) {
+            Movie movie = movieMemoryDB.get(key);
+
+            //검색 키워드와 국가가 일치하는 movie만 리스트에 추가
+            if (keyword.equals(movie.getNation())) {
+                movieList.add(movie);
+            }
+        }
+        return movieList;
+    }
+
+    private List<Movie> searchByTitle(String keyword) {
+
+        List<Movie> movieList = new ArrayList<>();
+        for (int key : movieMemoryDB.keySet()) {
+            Movie movie = movieMemoryDB.get(key);
+
+            //검색 키워드와 제목이 일치하는 movie만 리스트에 추가
+            if (keyword.equals(movie.getMovieName())) {
+                movieList.add(movie);
+            }
+        }
+        return movieList;
     }
 
     private List<Movie> searchAll() {
@@ -86,5 +147,11 @@ public class MemoryMovieRepository implements MovieRepository {
     @Override
     public void removeMovie(int serialNumber) {
         movieMemoryDB.remove(serialNumber);
+    }
+
+    //영화 검색 조건을 위한 인터페이스
+    @FunctionalInterface
+    interface MoviePredicate {
+        boolean test(String keyword, Movie movie);
     }
 }
