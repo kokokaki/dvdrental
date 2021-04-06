@@ -89,7 +89,7 @@ public class MemoryMovieRepository implements MovieRepository {
         return movieList;
     }
 
-    private List<Movie> searchByPubYear(String keyword) throws NumberFormatException {
+    /*private List<Movie> searchByPubYear(String keyword) throws NumberFormatException {
         List<Movie> movieList = new ArrayList<>();
         for (int key : movieMemoryDB.keySet()) {
             Movie movie = movieMemoryDB.get(key);
@@ -138,7 +138,7 @@ public class MemoryMovieRepository implements MovieRepository {
         }
         return movieList;
     }
-
+*/
     @Override
     public Movie searchMovieOne(int serialNumber) {
         return movieMemoryDB.get(serialNumber);

@@ -60,7 +60,7 @@ public class Movie {
     }
 
     public void setCharge(int charge) {
-        this.charge = charge;
+        this.charge = ChargePolicy.calculateDvdCharge(this.pubYear);
     }
 
     public boolean isRental() {
