@@ -1,7 +1,6 @@
 package com.funnydvd.dvdrental.cli.user.controller;
 
 import com.funnydvd.dvdrental.cli.main.AppController;
-import com.funnydvd.dvdrental.cli.ui.AppUI;
 import com.funnydvd.dvdrental.cli.user.domain.User;
 import com.funnydvd.dvdrental.cli.user.repository.MemoryUserRepository;
 import com.funnydvd.dvdrental.cli.user.repository.UserRepository;
