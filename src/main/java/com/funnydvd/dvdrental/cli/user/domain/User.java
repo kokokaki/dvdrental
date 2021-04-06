@@ -18,7 +18,7 @@ public class User {
     private int totalPaying; //누적결제액
     private Grade grade; //회원등급
     //현재 대여중인 목록 (영화시리얼넘버: K, 주문: V)
-    private static final Map<Integer, Order> orderMap = new HashMap<>();
+    private final Map<Integer, Order> orderMap = new HashMap<>();
 
     public User(String userName, String phoneNumber) {
         this.userNumber = ++sequence;
@@ -40,7 +40,7 @@ public class User {
         return orderMap.get(serialNumber);
     }
     //회원의 전체 대여중인 주문 정보 얻기
-    public static Map<Integer, Order> getOrderMap() {
+    public Map<Integer, Order> getOrderMap() {
         return orderMap;
     }
 
